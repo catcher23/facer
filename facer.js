@@ -1,12 +1,10 @@
-var express = require('express');
-var app = express();
+const express = require('express')
 
-app.use(express.static('public'));
+const app = express();
 
-app.get('/', function (req, res) {
-    res.send('Facer');
-});
+app.use(express.static('static'));
 
-app.listen(3000, function () {
-    console.log('Listening on port 3000');
+const server = app.listen(3000, () => {
+    const port = server.address().port;
+    console.log("Started server at port", port);
 });
