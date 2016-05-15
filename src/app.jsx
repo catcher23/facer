@@ -17,11 +17,11 @@ const BugRow = React.createClass({
     render: function() {
         return (
             <tr>
-                <td>{this.props.id}</td>
-                <td>{this.props.status}</td>
-                <td>{this.props.priority}</td>
-                <td>{this.props.owner}</td>
-                <td>{this.props.title}</td>
+                <td>{this.props.bug.id}</td>
+                <td>{this.props.bug.status}</td>
+                <td>{this.props.bug.priority}</td>
+                <td>{this.props.bug.owner}</td>
+                <td>{this.props.bug.title}</td>
             </tr>
         )
     }
@@ -29,6 +29,9 @@ const BugRow = React.createClass({
 
 const BugTable = React.createClass({
     render: function() {
+        const bugRows = this.props.bugs.map( (bug) => {
+            return <BugRow key={bug.id} bug={bug}/>
+        });
         return (
             <table>
                 <thead>
@@ -41,8 +44,7 @@ const BugTable = React.createClass({
                 </tr>
                 </thead>
                 <tbody>
-                <BugRow id={1} priority="P1" status="Open" owner="Ravan" title="App crashes on open" />
-                <BugRow id={2} priority="P2" status="New" owner="Eddie" title="Misaligned border on panel" />
+                {bugRows}
                 </tbody>
             </table>
         )
@@ -57,6 +59,12 @@ const BugAdd = React.createClass({
     }
 });
 
+const bugData = [
+    {id: 1, priority: 'P1', status:'Open', owner:'Ravan', title:'App crashes on open'},
+    {id: 2, priority: 'P2', status:'New', owner:'Eddie', title:'Misaligned border on panel'},
+];
+
+
 const BugList = React.createClass({
     render: function() {
         return (
@@ -64,7 +72,7 @@ const BugList = React.createClass({
                 <h1>Bug Tracker</h1>
                 <BugFilter />
                 <hr />
-                <BugTable />
+                <BugTable bugs={bugData} />
                 <hr />
                 <BugAdd />
             </div>
