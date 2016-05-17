@@ -10,3 +10,9 @@
 - React w/Redux
 - MongoDB
 - Socket.io
+- Webpack
+- ES6
+- Immutable.js
+
+### Testing
+- Mocha.js
