@@ -5,32 +5,31 @@ import Route from 'react-router/lib/Route';
 import browserHistory from 'react-router/lib/browserHistory';
 import Redirect from 'react-router/lib/Redirect';
 
-const BugFilter = React.createClass({
+const UserFilter = React.createClass({
     render: function() {
         return (
-            <div>A way to filter the list of bugs would come here.</div>
+            <div>A way to filter the list of users would come here.</div>
         )
     }
 });
 
-const BugRow = React.createClass({
+const UserRow = React.createClass({
     render: function() {
         return (
             <tr>
-                <td>{this.props.bug.id}</td>
-                <td>{this.props.bug.status}</td>
-                <td>{this.props.bug.priority}</td>
-                <td>{this.props.bug.owner}</td>
-                <td>{this.props.bug.title}</td>
+                <td>{this.props.user.id}</td>
+                <td>{this.props.user.status}</td>
+                <td>{this.props.user.name}</td>
+                <td>{this.props.user.location}</td>
             </tr>
         )
     }
 });
 
-const BugTable = React.createClass({
+const UserTable = React.createClass({
     render: function() {
-        const bugRows = this.props.bugs.map( (bug) => {
-            return <BugRow key={bug.id} bug={bug}/>
+        const userRows = this.props.users.map( (user) => {
+            return <UserRow key={user.id} user={user}/>
         });
         return (
             <table>
@@ -38,43 +37,42 @@ const BugTable = React.createClass({
                 <tr>
                     <th>Id</th>
                     <th>Status</th>
-                    <th>Priority</th>
-                    <th>Owner</th>
-                    <th>Title</th>
+                    <th>Name</th>
+                    <th>Location</th>
                 </tr>
                 </thead>
                 <tbody>
-                {bugRows}
+                {userRows}
                 </tbody>
             </table>
         )
     }
 });
 
-const BugAdd = React.createClass({
+const UserAdd = React.createClass({
     render: function() {
         return (
-            <div>A form to add a new bug would come here.</div>
+            <div>A form to add a new user would come here.</div>
         )
     }
 });
 
-const bugData = [
-    {id: 1, priority: 'P1', status:'Open', owner:'Ravan', title:'App crashes on open'},
-    {id: 2, priority: 'P2', status:'New', owner:'Eddie', title:'Misaligned border on panel'},
+const userData = [
+    {id: 1, status:'Online', name:'Danny', location:'San Francisco'},
+    {id: 2, status:'Offline', name:'Dan', location:'Fremont'},
 ];
 
 
-const BugList = React.createClass({
+const UserList = React.createClass({
     render: function() {
         return (
             <div>
-                <h1>Bug Tracker</h1>
-                <BugFilter />
+                <h1>User Tracker</h1>
+                <UserFilter />
                 <hr />
-                <BugTable bugs={bugData} />
+                <UserTable users={userData} />
                 <hr />
-                <BugAdd />
+                <UserAdd />
             </div>
         )
     }
@@ -82,6 +80,5 @@ const BugList = React.createClass({
 
 ReactDOM.render(
     <Router history={browserHistory}>
-        <Redirect from="/" to="/bugs" />
-        <Route path="/bugs" component={BugList} />
+        <Route path="/" component={UserList} />
     </Router>, document.getElementById('facer'));
