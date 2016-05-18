@@ -50,9 +50,18 @@ const UserTable = React.createClass({
 });
 
 const UserAdd = React.createClass({
+    handleSubmit: function () {
+        console.log('hello');
+    },
     render: function() {
         return (
-            <div>A form to add a new user would come here.</div>
+            <div>
+                <form name="UserAdd">
+                    <input type="text" name="name" placeholder="location" />
+                    <input type="text" name="location" placeholder="location" />
+                    <button onClick={this.handleSubmit}>Create User</button>
+                </form>
+            </div>
         )
     }
 });
