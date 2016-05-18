@@ -13,6 +13,8 @@
 - Webpack
 - ES6
 - Immutable.js
+- Passport
 
 ### Testing
-- Mocha.js
+- Mocha
+- Chai
