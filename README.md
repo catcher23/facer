@@ -9,6 +9,7 @@
 - Express
 - React w/Redux
 - MongoDB
+- Mongoose
 - Socket.io
 - Webpack
 - ES6
