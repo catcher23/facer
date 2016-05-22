@@ -36,6 +36,13 @@ apiRoutes.post('/signup', (req, res) => {
   }
 });
 
+apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), function(req, res) {
+  res.send('Logged in. User id is: ' + req.user._id + '.');
+});
+
+// Set url for API group routes
+app.use('/api', apiRoutes);
+
 const server = app.listen(3000, () => {
   const port = server.address().port;
   console.log("Started server at port", port);
