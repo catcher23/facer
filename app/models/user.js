@@ -1,8 +1,10 @@
-const mongoose = require('mongoose'), 
+"use strict";
+
+let mongoose = require('mongoose'),
       bcrypt = require('bcrypt');
 
 // Schema defines how the user data will be stored in MongoDB
-const UserSchema = new mongoose.Schema({
+let UserSchema = new mongoose.Schema({
   username: {
     type: String,
     lowercase: true,
@@ -22,7 +24,7 @@ const UserSchema = new mongoose.Schema({
 
 // Saves the user's hashed password
 UserSchema.pre('save', function (next) {
-  const user = this;
+  let user = this;
   if (this.isModified('password') || this.isNew) {
     bcrypt.genSalt(10, function (err, salt) {
       if (err) {
@@ -41,13 +43,14 @@ UserSchema.pre('save', function (next) {
   }
 });
 
-UserSchema.methods.comparePassword = (pw, cb) => {
-  bcrypt.compare(pw, this.password, function (err, isMatch) {
+UserSchema.methods.comparePassword = function(pw, cb) {
+  bcrypt.compare(pw, this.password, function(err, isMatch) {
     if (err) {
       return cb(err);
     }
     cb(null, isMatch);
   });
 };
+
 
 module.exports = mongoose.model('User', UserSchema);

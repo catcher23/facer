@@ -90,4 +90,4 @@ const UserList = React.createClass({
 ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={UserList}/>
-  </Router>, document.getElementById('facer'));
+  </Router>, document.getElementById('root'));
