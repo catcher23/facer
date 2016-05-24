@@ -17,56 +17,57 @@ module.exports = function (app) {
   // Create API group routes
   const apiRoutes = express.Router();
 
-  // Register new users
-  apiRoutes.post('/register', function (req, res) {
-    if (!req.body.email || !req.body.password) {
-      res.json({success: false, message: 'Please enter email and password.'});
+  apiRoutes.post('/signup', (req, res) => {
+    if (!req.body.username || !req.body.password) {
+      res.json({success: false, message: 'Please enter username and password.'});
     } else {
-      const newUser = new User({
-        email: req.body.email,
+      var newUser = new User({
+        username: req.body.username,
         password: req.body.password
       });
 
-      // Attempt to save the user
-      newUser.save(function (err) {
+      newUser.save( (err) => {
         if (err) {
-          return res.json({success: false, message: 'That email address already exists.'});
+          return res.json({success: false, message: 'That username address already exists.'});
         }
         res.json({success: true, message: 'Successfully created new user.'});
       });
     }
   });
 
-  // Authenticate the user and get a JSON Web Token to include in the header of future requests.
-  apiRoutes.post('/authenticate', function (req, res) {
+  apiRoutes.post('/authenticate', function(req, res) {
     User.findOne({
-      email: req.body.email
-    }, function (err, user) {
+      username: req.body.username
+
+    }, function(err, user) {
       if (err) throw err;
 
       if (!user) {
-        res.send({success: false, message: 'Authentication failed. User not found.'});
+        res.send({ success: false, message: 'Authentication failed. User not found.' });
       } else {
         // Check if password matches
-        user.comparePassword(req.body.password, function (err, isMatch) {
+        user.comparePassword(req.body.password, function(err, isMatch) {
           if (isMatch && !err) {
             // Create token if the password matched and no error was thrown
-            const token = jwt.sign(user, config.secret, {
+            var token = jwt.sign(user, config.secret, {
               expiresIn: 10080 // in seconds
             });
-            res.json({success: true, token: 'JWT ' + token});
+            res.json({ success: true, token: 'JWT ' + token });
           } else {
-            res.send({success: false, message: 'Authentication failed. Passwords did not match.'});
+            res.send({ success: false, message: 'Authentication failed. Passwords did not match.' });
           }
         });
       }
     });
   });
-
-  // Protect dashboard route with JWT
-  apiRoutes.get('/dashboard', passport.authenticate('jwt', {session: false}), function (req, res) {
-    res.send('It worked! User id is: ' + req.user._id + '.');
+  
+  const apiRoutes = express.Router();
+  apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), function(req, res) {
+    res.send('Logged in. User id is: ' + req.user._id + '.');
   });
+
+// Set url for API group routes
+  app.use('/api', apiRoutes);
 
   // Set url for API group routes
   app.use('/api', apiRoutes);
