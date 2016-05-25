@@ -5,20 +5,16 @@ const passport = require('passport'),
   User = require('./models/user');
 
 // Export the routes for our app to use
-module.exports = function (app) {
+module.exports = (app) => {
   // API Route Section
 
-  // Initialize passport for use
   app.use(passport.initialize());
 
-  // Bring in defined Passport Strategy
   require('../config/passport')(passport);
 
-  // Create API group routes
   const apiRoutes = express.Router();
 
-// Register new users
-  apiRoutes.post('/register', function (req, res) {
+  apiRoutes.post('/register', (req, res) => {
     if (!req.body.email || !req.body.password) {
       res.json({success: false, message: 'Please enter email and password.'});
     } else {
@@ -27,7 +23,6 @@ module.exports = function (app) {
         password: req.body.password
       });
 
-      // Attempt to save the user
       newUser.save(function (err) {
         if (err) {
           return res.json({success: false, message: 'That email address already exists.'});
@@ -37,8 +32,7 @@ module.exports = function (app) {
     }
   });
 
-// Authenticate the user and get a JSON Web Token to include in the header of future requests.
-  apiRoutes.post('/authenticate', function(req, res) {
+  apiRoutes.post('/authenticate', (req, res) => {
     User.findOne({
       username: req.body.username
 
@@ -48,10 +42,8 @@ module.exports = function (app) {
       if (!user) {
         res.send({ success: false, message: 'Authentication failed. User not found.' });
       } else {
-        // Check if password matches
-        user.comparePassword(req.body.password, function(err, isMatch) {
+        user.comparePassword(req.body.password, (err, isMatch) => {
           if (isMatch && !err) {
-            // Create token if the password matched and no error was thrown
             var token = jwt.sign(user, config.secret, {
               expiresIn: 10080 // in seconds
             });
@@ -64,7 +56,7 @@ module.exports = function (app) {
     });
   });
   
-  apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), function(req, res) {
+  apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.send('Logged in. User id is: ' + req.user._id + '.');
   });
 

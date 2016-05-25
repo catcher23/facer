@@ -4,9 +4,7 @@ const express = require('express'),
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   passport = require('passport'),
-  jwt = require('jsonwebtoken'),
-  config = require('./config/main'),
-  User = require('./app/models/user');
+  config = require('./config/main');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
