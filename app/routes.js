@@ -2,7 +2,8 @@ const passport = require('passport'),
   express = require('express'),
   config = require('../config/main'),
   jwt = require('jsonwebtoken'),
-  User = require('./models/user');
+  User = require('./models/user'),
+  Chat = require('./models/chat');;
 
 // Export the routes for our app to use
 module.exports = (app) => {
@@ -55,9 +56,15 @@ module.exports = (app) => {
       }
     });
   });
-  
-  apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.send('Logged in. User id is: ' + req.user._id + '.');
+
+  // GET messages for authenticated user
+  apiRoutes.get('/chat', passport.authenticate('jwt', { session: false }), (req, res) => {
+    Chat.find({$or : [{'to': req.user._id}, {'from': req.user._id}]}, (err, messages) => {
+      if (err) {
+        res.send(err);
+      }
+      res.json(messages);
+    });
   });
 
 // Set url for API group routes
