@@ -37,7 +37,7 @@ module.exports = (app) => {
     User.findOne({
       username: req.body.username
 
-    }, function(err, user) {
+    }, (err, user) => {
       if (err) throw err;
 
       if (!user) {
@@ -45,7 +45,7 @@ module.exports = (app) => {
       } else {
         user.comparePassword(req.body.password, (err, isMatch) => {
           if (isMatch && !err) {
-            var token = jwt.sign(user, config.secret, {
+            const token = jwt.sign(user, config.secret, {
               expiresIn: 10080 // in seconds
             });
             res.json({ success: true, token: 'JWT ' + token });
@@ -67,5 +67,20 @@ module.exports = (app) => {
     });
   });
 
+  // POST to create a new message from the authenticated user
+  apiRoutes.post('/chat', passport.authenticate('jwt', { session: false }), function(req, res) {
+    let chat = new Chat();
+    chat.from = req.user._id;
+    chat.to = req.body.to;
+    chat.message_body = req.body.message_body;
+
+    // Save the chat message if there are no errors
+    chat.save( (err) => {
+      if (err)
+        res.send(err);
+
+      res.json({ message: 'Message sent!' });
+    });
+  });
 // Set url for API group routes
   app.use('/api', apiRoutes);
