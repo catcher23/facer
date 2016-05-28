@@ -86,7 +86,7 @@ module.exports = (app) => {
         res.send(err);
 
       message.message_body = req.body.message_body;
-      
+
       message.save( (err) => {
         if (err)
           res.send(err);
