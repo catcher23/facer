@@ -3,7 +3,7 @@ const passport = require('passport'),
   config = require('../config/main'),
   jwt = require('jsonwebtoken'),
   User = require('./models/user'),
-  Chat = require('./models/chat');;
+  Chat = require('./models/chat');
 
 // Export the routes for our app to use
 module.exports = (app) => {
@@ -41,25 +41,24 @@ module.exports = (app) => {
       if (err) throw err;
 
       if (!user) {
-        res.send({ success: false, message: 'Authentication failed. User not found.' });
+        res.send({success: false, message: 'Authentication failed. User not found.'});
       } else {
         user.comparePassword(req.body.password, (err, isMatch) => {
           if (isMatch && !err) {
             const token = jwt.sign(user, config.secret, {
               expiresIn: 10080 // in seconds
             });
-            res.json({ success: true, token: 'JWT ' + token });
+            res.json({success: true, token: 'JWT ' + token});
           } else {
-            res.send({ success: false, message: 'Authentication failed. Passwords did not match.' });
+            res.send({success: false, message: 'Authentication failed. Passwords did not match.'});
           }
         });
       }
     });
   });
 
-  // GET messages for authenticated user
-  apiRoutes.get('/chat', passport.authenticate('jwt', { session: false }), (req, res) => {
-    Chat.find({$or : [{'to': req.user._id}, {'from': req.user._id}]}, (err, messages) => {
+  apiRoutes.get('/chat', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Chat.find({$or: [{'to': req.user._id}, {'from': req.user._id}]}, (err, messages) => {
       if (err) {
         res.send(err);
       }
@@ -67,20 +66,44 @@ module.exports = (app) => {
     });
   });
 
-  // POST to create a new message from the authenticated user
-  apiRoutes.post('/chat', passport.authenticate('jwt', { session: false }), function(req, res) {
+  apiRoutes.post('/chat', passport.authenticate('jwt', {session: false}), (req, res) => {
     let chat = new Chat();
     chat.from = req.user._id;
     chat.to = req.body.to;
     chat.message_body = req.body.message_body;
 
-    // Save the chat message if there are no errors
-    chat.save( (err) => {
+    chat.save((err) => {
       if (err)
         res.send(err);
 
-      res.json({ message: 'Message sent!' });
+      res.json({message: 'Message sent!'});
     });
   });
-// Set url for API group routes
+
+  apiRoutes.put('/chat/:message_id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    Chat.findOne({$and : [{'_id': req.params.message_id}, {'from': req.user._id}]}, (err, message) => {
+      if (err)
+        res.send(err);
+
+      message.message_body = req.body.message_body;
+      
+      message.save( (err) => {
+        if (err)
+          res.send(err);
+
+        res.json({ message: 'Message edited!' });
+      });
+    });
+  });
+
+  apiRoutes.delete('/chat/:message_id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    Chat.findOneAndRemove({$and : [{'_id': req.params.message_id}, {'from': req.user._id}]}, (err) => {
+      if (err)
+        res.send(err);
+
+      res.json({ message: 'Message removed!' });
+    });
+  });
+
   app.use('/api', apiRoutes);
+};
