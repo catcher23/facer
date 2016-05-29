@@ -7,14 +7,11 @@ const passport = require('passport'),
 
 // Export the routes for our app to use
 module.exports = (app) => {
-  // API Route Section
-
   app.use(passport.initialize());
-
   require('../config/passport')(passport);
-
   const apiRoutes = express.Router();
 
+// Create User
   apiRoutes.post('/register', (req, res) => {
     if (!req.body.email || !req.body.password) {
       res.json({success: false, message: 'Please enter email and password.'});
@@ -31,6 +28,16 @@ module.exports = (app) => {
         res.json({success: true, message: 'Successfully created new user.'});
       });
     }
+  });
+  
+let users = [
+  {id:1, name:dan},
+  {id:2, name:danny}
+];
+
+  //Get all Users
+  apiRoutes.get('/api/users', (req, res) => {
+    res.status(200).send(JSON.stringify(users))
   });
 
   apiRoutes.post('/authenticate', (req, res) => {

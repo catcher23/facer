@@ -13,9 +13,15 @@
 - Socket.io
 - Webpack
 - ES6
-- Immutable.js
 - Passport
 
 ### Testing
 - Mocha
 - Chai
+
+### To Run
+- Download repo
+- Type `npm install` to install necessary modules
+- Type `mongod` to start MongoDB
+- Type `webpack --watch` to create bundle.js
+- Type `node server.js` to spin up the server on localhost:3000
