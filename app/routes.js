@@ -1,3 +1,4 @@
+"use strict";
 const passport = require('passport'),
   express = require('express'),
   config = require('../config/main'),
@@ -31,12 +32,12 @@ module.exports = (app) => {
   });
   
 let users = [
-  {id:1, name:dan},
-  {id:2, name:danny}
+  {id:1, name:'dan'},
+  {id:2, name:'danny'}
 ];
 
   //Get all Users
-  apiRoutes.get('/api/users', (req, res) => {
+  apiRoutes.get('/users', (req, res) => {
     res.status(200).send(JSON.stringify(users))
   });
 

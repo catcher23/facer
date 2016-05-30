@@ -13,7 +13,7 @@ app.use(express.static('static'));
 app.use(passport.initialize());
 
 mongoose.connect(config.database);
-require('./config/passport')(passport);
+require('./app/routes')(app);
 
 const server = app.listen(3000, () => {
   const port = server.address().port;
