@@ -1,16 +1,17 @@
 "use strict";
 const passport = require('passport'),
   express = require('express'),
+  bodyParser = require('body-parser'),
   config = require('../config/main'),
   jwt = require('jsonwebtoken'),
   User = require('./models/user'),
   Chat = require('./models/chat');
 
-// Export the routes for our app to use
 module.exports = (app) => {
   app.use(passport.initialize());
   require('../config/passport')(passport);
   const apiRoutes = express.Router();
+  app.use(bodyParser.json());
 
 // Create User
   apiRoutes.post('/register', (req, res) => {
@@ -30,15 +31,15 @@ module.exports = (app) => {
       });
     }
   });
-  
-let users = [
-  {id:1, name:'dan'},
-  {id:2, name:'danny'}
-];
+
+  const users = [
+    {id: 1, status: 'Online', name: 'Danny', location: 'San Francisco'},
+    {id: 2, status: 'Offline', name: 'Dan', location: 'Fremont'},
+  ];
 
   //Get all Users
   apiRoutes.get('/users', (req, res) => {
-    res.status(200).send(JSON.stringify(users))
+    res.json(users);
   });
 
   apiRoutes.post('/authenticate', (req, res) => {

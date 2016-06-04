@@ -66,13 +66,18 @@ const UserAdd = React.createClass({
   }
 });
 
-const userData = [
-  {id: 1, status: 'Online', name: 'Danny', location: 'San Francisco'},
-  {id: 2, status: 'Offline', name: 'Dan', location: 'Fremont'},
-];
-
-
 const UserList = React.createClass({
+  getInitialState: function() {
+    return {users: []};
+  },
+
+  componentDidMount: function() {
+    $.ajax('/api/users').done(function(data) {
+      this.setState({users: data});
+    }.bind(this));
+  },
+
+
   render: function () {
     return (
       <div>
