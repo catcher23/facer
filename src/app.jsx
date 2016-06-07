@@ -67,16 +67,30 @@ const UserAdd = React.createClass({
 });
 
 const UserList = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     return {users: []};
   },
 
-  componentDidMount: function() {
-    $.ajax('/api/users').done(function(data) {
+  componentDidMount: function () {
+    $.ajax('/api/users').done(function (data) {
       this.setState({users: data});
     }.bind(this));
   },
 
+  addUser: function (user) {
+    $.ajax({
+      type: 'POST', url: '/api/users', contentType: 'application/json',
+      data: JSON.stringify(user),
+      success: function (user) {
+        let newUsers = this.state.users.concat(user);
+        this.setState({users: newUsers});
+      }.bind(this),
+      error: function (xhr, status, err) {
+
+      }
+    });
+  }
+});
 
   render: function () {
     return (
