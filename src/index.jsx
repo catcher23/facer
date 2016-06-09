@@ -1,9 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import reducers from from './reducers'
 import Router from 'react-router/lib/Router';
 import Route from 'react-router/lib/Route';
 import browserHistory from 'react-router/lib/browserHistory';
-import Redirect from 'react-router/lib/Redirect';
+
 
 const UserFilter = React.createClass({
   render: function () {
@@ -106,7 +109,7 @@ const UserList = React.createClass({
   }
 });
 
-ReactDOM.render(
+render(
   <Router history={browserHistory}>
     <Route path="/" component={UserList}/>
   </Router>, document.getElementById('root'));

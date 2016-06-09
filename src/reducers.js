@@ -1,4 +1,4 @@
-export default function reducer(state = INITIAL_STATE, action) {
+ export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case 'USERS_RECEIVED':
       return state.update('users',
