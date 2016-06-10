@@ -7,7 +7,6 @@ import Router from 'react-router/lib/Router';
 import Route from 'react-router/lib/Route';
 import browserHistory from 'react-router/lib/browserHistory';
 
-
 const UserFilter = React.createClass({
   render: function () {
     return (
@@ -92,8 +91,7 @@ const UserList = React.createClass({
 
       }
     });
-  }
-});
+  },
 
   render: function () {
     return (
@@ -110,6 +108,9 @@ const UserList = React.createClass({
 });
 
 render(
-  <Router history={browserHistory}>
-    <Route path="/" component={UserList}/>
-  </Router>, document.getElementById('root'));
+  <Provider store={store}>
+    <Router history={browserHistory}>
+      <Route path="/" component={UserList}/>
+    </Router>
+  </Provider>,
+  document.getElementById('root'));
