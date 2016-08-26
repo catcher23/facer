@@ -1,9 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import reducers from from './reducers'
 import Router from 'react-router/lib/Router';
 import Route from 'react-router/lib/Route';
 import browserHistory from 'react-router/lib/browserHistory';
-import Redirect from 'react-router/lib/Redirect';
 
 const UserFilter = React.createClass({
   render: function () {
@@ -66,13 +68,31 @@ const UserAdd = React.createClass({
   }
 });
 
-const userData = [
-  {id: 1, status: 'Online', name: 'Danny', location: 'San Francisco'},
-  {id: 2, status: 'Offline', name: 'Dan', location: 'Fremont'},
-];
-
-
 const UserList = React.createClass({
+  getInitialState: function () {
+    return {users: []};
+  },
+
+  componentDidMount: function () {
+    $.ajax('/api/users').done(function (data) {
+      this.setState({users: data});
+    }.bind(this));
+  },
+
+  addUser: function (user) {
+    $.ajax({
+      type: 'POST', url: '/api/users', contentType: 'application/json',
+      data: JSON.stringify(user),
+      success: function (user) {
+        let newUsers = this.state.users.concat(user);
+        this.setState({users: newUsers});
+      }.bind(this),
+      error: function (xhr, status, err) {
+
+      }
+    });
+  },
+
   render: function () {
     return (
       <div>
@@ -87,7 +107,10 @@ const UserList = React.createClass({
   }
 });
 
-ReactDOM.render(
-  <Router history={browserHistory}>
-    <Route path="/" component={UserList}/>
-  </Router>, document.getElementById('root'));
+render(
+  <Provider store={store}>
+    <Router history={browserHistory}>
+      <Route path="/" component={UserList}/>
+    </Router>
+  </Provider>,
+  document.getElementById('root'));
