@@ -5,6 +5,13 @@ module.exports = {
     entry: [
         './src/app.jsx'
     ],
+    vendor: [
+        'react',
+        'react-dom',
+        'react-redux',
+        'react-router'
+    ]
+
 
     output: {
         path: path.join(__dirname, 'static'),
@@ -17,42 +24,51 @@ module.exports = {
     ],
 
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['.js', '.jsx']
     },
 
     module: {
-        loaders: [{
-            test: /\.jsx$/,
-            loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015'],
-            include: path.join(__dirname, 'src'),
-            exclude: /node_modules/,
-        }, {
-            test: /\.css$/,
-            loader: 'style-loader!css-loader',
-        }, {
-            test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-            loader: 'url?limit=10000&mimetype=application/font-woff',
-        }, {
-            test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-            loader: 'url?limit=10000&mimetype=application/octet-stream',
-        }, {
-            test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-            loader: 'file',
-        }, {
-            test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-            loader: 'url?limit=10000&mimetype=image/svg+xml',
-        }
-        ]
-    },
-
-    devServer: {
-        historyApiFallback: true,
-        contentBase: 'static/',
-        proxy: {
-            '/api/*': {
-                target: 'http://localhost:3000',
-                secure: false
+        rules: [
+            {
+                exclude: /node_modules/,
+                test: /\.(js|jsx)$/,
+                use: [
+                    'babel-loader'
+                ]
+            },
+            {
+                test: /\.scss$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        'css-loader',
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                plugins: function () {
+                                    return [
+                                        require('autoprefixer')
+                                    ];
+                                }
+                            }
+                        },
+                        'sass-loader'
+                    ]
+                }),
+                exclude: /node_modules/
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192
+                        }
+                    },
+                    'img-loader'
+                ]
             }
-        }
+        ]
     }
 };

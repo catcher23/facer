@@ -1,11 +1,12 @@
-const express = require('express'),
-  app = express(),
-  mongoose = require('mongoose'),
-  bodyParser = require('body-parser'),
-  morgan = require('morgan'),
-  passport = require('passport'),
-  config = require('./config/main');
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import morgan from 'morgan';
+import passport from 'passport';
+import config from './config/main';
+import routes from './app/routes/index';
 
+const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
@@ -14,10 +15,9 @@ app.use(passport.initialize());
 
 mongoose.connect(config.database);
 
-require('./config/passport')(passport);
-
+routes(app, {});
 
 const server = app.listen(3000, () => {
-  const port = server.address().port;
-  console.log("Started server at port", port);
+    const port = server.address().port;
+    console.log('Started server at port', port);
 });

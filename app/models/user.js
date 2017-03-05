@@ -1,56 +1,40 @@
-"use strict";
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
-let mongoose = require('mongoose'),
-      bcrypt = require('bcrypt');
-
-// Schema defines how the user data will be stored in MongoDB
-let UserSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    lowercase: true,
-    unique: true,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  role: {
-    type: String,
-    enum: ['Client', 'Manager', 'Admin'],
-    default: 'Client'
-  }
+const UserSchema = new mongoose.Schema({
+    password: {
+        required: true,
+        type: String,
+    },
+    username: {
+        lowercase: true,
+        required: true,
+        type: String,
+        unique: true,
+    },
 });
 
 // Saves the user's hashed password
-UserSchema.pre('save', function (next) {
-  let user = this;
-  if (this.isModified('password') || this.isNew) {
-    bcrypt.genSalt(10, function (err, salt) {
-      if (err) {
-        return next(err);
-      }
-      bcrypt.hash(user.password, salt, function (err, hash) {
-        if (err) {
-          return next(err);
-        }
-        user.password = hash;
-        next();
-      });
-    });
-  } else {
+UserSchema.pre('save', (next) => {
+    const tracker = this;
+    if (this.isModified('password') || this.isNew) {
+        return bcrypt.genSalt(10, (err, salt) => {
+            if (err) return next(err);
+            return bcrypt.hash(tracker.password, salt, (hash) => {
+                if (err) return next(err);
+                tracker.password = hash;
+                return next();
+            });
+        });
+    }
     return next();
-  }
 });
 
-UserSchema.methods.comparePassword = function(pw, cb) {
-  bcrypt.compare(pw, this.password, function(err, isMatch) {
-    if (err) {
-      return cb(err);
-    }
-    cb(null, isMatch);
-  });
-};
+UserSchema.methods.comparePassword = (pw, cb) =>
+    bcrypt.compare(pw, this.password, (err, isMatch) => {
+        if (err) return cb(err);
+        return cb(null, isMatch);
+    });
 
 
-module.exports = mongoose.model('User', UserSchema);
+export default mongoose.model('User', UserSchema);
