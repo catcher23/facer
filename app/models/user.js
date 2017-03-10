@@ -1,10 +1,25 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt-nodejs';
 
 const UserSchema = new mongoose.Schema({
+    email: {
+        lowercase: true,
+        required: true,
+        type: String,
+        unique: true,
+    },
+    group: {
+        type: String
+    },
+    name: {
+        type: String
+    },
     password: {
         required: true,
         type: String,
+    },
+    title: {
+        type: String
     },
     username: {
         lowercase: true,
@@ -14,19 +29,22 @@ const UserSchema = new mongoose.Schema({
     },
 });
 
-// Saves the user's hashed password
+// Pre save user, hash pw if modified or new
 UserSchema.pre('save', (next) => {
-    const tracker = this;
-    if (this.isModified('password') || this.isNew) {
-        return bcrypt.genSalt(10, (err, salt) => {
+    const user = this;
+    const SALT_FACTOR = 5;
+
+    if (!user.isModified('password')) return next();
+
+    bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
+        if (err) return next(err);
+
+        return bcrypt.hash(user.password, salt, (hash, err) => {
             if (err) return next(err);
-            return bcrypt.hash(tracker.password, salt, (hash) => {
-                if (err) return next(err);
-                tracker.password = hash;
-                return next();
-            });
+            user.password = hash;
+            return next();
         });
-    }
+    });
     return next();
 });
 
