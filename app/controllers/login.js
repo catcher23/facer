@@ -1,4 +1,4 @@
-import {setUserInfo, generateToken} from './authentication';
+import {setUserInfo, generateToken} from './auth';
 
 const login = (req, res) => {
     const userInfo = setUserInfo(req.user);

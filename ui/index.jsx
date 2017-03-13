@@ -1,19 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import promiseMiddleware from 'redux-promise';
+import reduxThunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import {Router, browserHistory} from 'react-router';
-import reducers from './reducers';
+import rootReducer from './reducers/rootReducer';
 import routes from './routes';
 
 const createStoreWithMiddleware = applyMiddleware(
-    promiseMiddleware
+    reduxThunk
 )(createStore);
 
 ReactDOM.render(
-    <Provider store={createStoreWithMiddleware(reducers)}>
-        <Router history={browserHistory} routes={routes} />
+    <Provider store={createStoreWithMiddleware(rootReducer)}>
+        <Router
+            history={browserHistory}
+            routes={routes}
+        />
     </Provider>,
-    document.getElementById('.container')
+    document.getElementById('.reactContainer')
 );

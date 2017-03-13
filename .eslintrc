@@ -88,6 +88,8 @@
 
         "no-console": 0,
 
+        "no-restricted-syntax": [0, "ForOfStatement"],
+
         "no-shadow": 0,
 
         "no-underscore-dangle": 0,

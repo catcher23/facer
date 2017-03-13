@@ -1,25 +1,10 @@
-export const user = (state, action) => {
-    switch (action.type) {
-        case 'ADD_USER':
-            return {
-                completed: false,
-                id: action.id,
-                text: action.text
-            };
+import {combineReducers} from 'redux';
+import {reducer as formReducer} from 'redux-form';
+import authReducer from './authReducer';
 
-        default:
-            return state;
-    }
-};
+const rootReducer = combineReducers({
+    authReducer,
+    formReducer
+});
 
-export const users = (state = [], action) => {
-    switch (action.type) {
-        case 'ADD_USER':
-            return [
-                ...state,
-                user(undefined, action)
-            ];
-        default:
-            return state;
-    }
-};
+export default rootReducer;

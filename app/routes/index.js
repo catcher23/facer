@@ -10,17 +10,17 @@ import {getUsers, getUser, postUser} from '../controllers/users';
 const requireLogin = passport.authenticate('local', {session: false});
 
 const routes = (app) => {
-    const apiRoutes = express.Router();
+    const api = express.Router();
     passportConfig(passport);
     app.use(passport.initialize());
-    app.use('/api', apiRoutes);
+    app.use('/api', api);
     app.use(bodyParser.json());
 
-    apiRoutes.post('/register', registration);
-    apiRoutes.post('/login', requireLogin, login);
-    apiRoutes.get('/users', getUsers);
-    apiRoutes.get('/users', getUser);
-    apiRoutes.post('/user', postUser);
+    api.post('/register', registration);
+    api.post('/login', requireLogin, login);
+    api.get('/users', getUsers);
+    api.get('/users', getUser);
+    api.post('/user', postUser);
 };
 
 export default routes;

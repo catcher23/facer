@@ -2,8 +2,9 @@ import React from 'react';
 import {Route} from 'react-router';
 import App from './components/app';
 import Login from './components/login';
+import NotFound from './components/notFound';
 import Profile from './components/profile';
-import AuthorizedContainer from './components/authorizedContainer';
+import Auth from './components/auth';
 
 export default (
     <Route
@@ -14,11 +15,15 @@ export default (
             component={Login}
             path="login"
         />
-        <Route component={AuthorizedContainer}>
+        <Route component={Auth}>
             <Route
                 component={Profile}
                 path="users/:id"
             />
         </Route>
+        <Route
+            component={NotFound}
+            path="*"
+        />
     </Route>
 );

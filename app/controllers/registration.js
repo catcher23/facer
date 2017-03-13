@@ -1,5 +1,5 @@
 import User from '../models/user';
-import {setUserInfo, generateToken} from './authentication';
+import {setUserInfo, generateToken} from './auth';
 
 const register = (req, res, next) => {
     const email = req.body.email;

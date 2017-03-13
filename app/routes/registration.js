@@ -1,4 +1,4 @@
-import User from '../models/user';
+import User from '../models';
 
 const register = (req, res) => {
     if (!req.body.email || !req.body.password) {

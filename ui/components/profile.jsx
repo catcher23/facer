@@ -1,8 +1,35 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+import * as actions from '../actions';
 
-const profile = () =>
-    <div>
-        Profile page
-    </div>;
+class Profile extends Component {
 
-export default profile;
+    static get propTypes() {
+        return {
+            content: PropTypes.Object
+        };
+    }
+
+    renderContent() {
+        if (this.props.content) {
+            return (
+                <p>{this.props.content}</p>
+            );
+        }
+        return undefined;
+    }
+
+    render() {
+        return (
+            <div>
+                {this.renderContent()}
+            </div>
+        );
+    }
+}
+
+function mapStateToProps(state) {
+    return {content: state.auth.content};
+}
+
+export default connect(mapStateToProps, actions)(Profile);

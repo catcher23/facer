@@ -1,7 +1,7 @@
 import passport from 'passport';
 import {Strategy, ExtractJwt} from 'passport-jwt';
 import LocalStrategy from 'passport-local';
-import User from '../app/models/user';
+import User from '../models/user';
 import config from './main';
 
 const localOptions = {usernameField: 'email'};
