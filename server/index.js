@@ -1,11 +1,11 @@
-import dotenv from 'dotenv/config'
+import dotenv from 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import passport from 'passport';
-import config from './config/main';
-import routes from './app/routes/index';
+import config from './config';
+import routes from './routes';
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -21,8 +21,8 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
 });
-
-mongoose.connect(config.database);
+console.log(config.main.database);
+mongoose.connect(config.main.database);
 routes(app, {});
 
 const server = app.listen(3000, () => {

@@ -94,6 +94,8 @@
 
         "no-underscore-dangle": 0,
 
+        "no-unused-vars": 0,
+
         "object-curly-spacing": [
             2,
             "never"

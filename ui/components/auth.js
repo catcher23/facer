@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {browserHistory, setRedirectUrl} from 'react-router';
-import {connect} from 'redux';
+import {connect} from 'react-redux';
+
+const isLoggedIn = true;
 
 class AuthorizedContainer extends Component {
     static get propTypes() {

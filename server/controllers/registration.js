@@ -1,7 +1,7 @@
 import User from '../models/user';
 import {setUserInfo, generateToken} from './auth';
 
-const register = (req, res, next) => {
+const registration = (req, res, next) => {
     const email = req.body.email;
     const name = req.body.name;
     const password = req.body.password;
@@ -32,4 +32,4 @@ const register = (req, res, next) => {
     });
 };
 
-export default register;
+export default registration;

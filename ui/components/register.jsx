@@ -41,8 +41,15 @@ const form = reduxForm({
 class Register extends Component {
     static get propTypes() {
         return {
-            content: PropTypes.Object
+            errorMessage: PropTypes.String,
+            handleSubmit: PropTypes.func,
+            registerUser: PropTypes.func,
         };
+    }
+
+    constructor() {
+        super();
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleFormSubmit(formProps) {
@@ -50,44 +57,70 @@ class Register extends Component {
     }
 
     renderAlert() {
-        if(this.props.errorMessage) {
+        if (this.props.errorMessage) {
             return (
                 <div>
-                <span><strong>Error!</strong> {this.props.errorMessage}</span>
+                    <span><strong>Error!</strong> {this.props.errorMessage}</span>
                 </div>
             );
         }
+        return undefined;
     }
 
     render() {
-        const { handleSubmit } = this.props;
+        const {handleSubmit} = this.props;
 
         return (
-            <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-            {this.renderAlert()}
-            <div className="row">
-            <div className="col-md-6">
-            <label>First Name</label>
-            <Field name="firstName" className="form-control" component={renderField} type="text" />
-            </div>
-            <div className="col-md-6">
-            <label>Last Name</label>
-            <Field name="lastName" className="form-control" component={renderField} type="text" />
-            </div>
-            </div>
-            <div className="row">
-            <div className="col-md-12">
-            <label>Email</label>
-            <Field name="email" className="form-control" component={renderField} type="text" />
-            </div>
-            </div>
-            <div className="row">
-            <div className="col-md-12">
-            <label>Password</label>
-            <Field name="password" className="form-control" component={renderField} type="password" />
-            </div>
-            </div>
-            <button type="submit" className="btn btn-primary">Register</button>
+            <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+                {this.renderAlert()}
+                <div className="row">
+                    <div className="col-md-6">
+                        <label htmlFor="firstName">First Name</label>
+                        <Field
+                            className="form-control"
+                            component={renderField}
+                            name="firstName"
+                            type="text"
+                        />
+                    </div>
+                    <div className="col-md-6">
+                        <label htmlFor="lastName">Last Name</label>
+                        <Field
+                            className="form-control"
+                            component={renderField}
+                            name="lastName"
+                            type="text"
+                        />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <label htmlFor="email">Email</label>
+                        <Field
+                            className="form-control"
+                            component={renderField}
+                            name="email"
+                            type="text"
+                        />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <label htmlFor="password">Password</label>
+                        <Field
+                            className="form-control"
+                            component={renderField}
+                            name="password"
+                            type="password"
+                        />
+                    </div>
+                </div>
+                <button
+                    className="btn btn-primary"
+                    type="submit"
+                >
+                Register
+                </button>
             </form>
         );
     }
@@ -100,4 +133,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { registerUser })(form(Register));
+export default connect(mapStateToProps, {registerUser})(form(Register));

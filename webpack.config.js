@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: [
-        './ui/app.jsx'
+        './ui/index.jsx'
     ],
 
     module: {
@@ -32,8 +32,7 @@ module.exports = {
 
     output: {
         filename: 'bundle.js',
-        path: path.join(__dirname, 'static'),
-        publicPath: '/'
+        path: path.join(__dirname, '/ui/'),
     },
 
     plugins: [
@@ -42,12 +41,5 @@ module.exports = {
 
     resolve: {
         extensions: ['.js', '.jsx']
-    },
-
-    vendor: [
-        'react',
-        'react-dom',
-        'react-redux',
-        'react-router'
-    ],
+    }
 };
