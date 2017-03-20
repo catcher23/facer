@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-export default class App extends Component {
-    render() {
-        return (
-            <div>
-                {this.props.children}
-            </div>
-        );
-    }
-}
+const App = ({children}) =>
+    <div>
+        {children}
+    </div>;
+
+App.propTypes = {
+    children: React.PropTypes.func,
+};
+
+export default App;

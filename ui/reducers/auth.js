@@ -23,7 +23,8 @@ export default (state = INITIAL_STATE, action) => {
         case UNAUTH_USER:
             return {
                 ...state,
-                authenticated: false
+                authenticated: false,
+                error: action.payload
             };
         case AUTH_ERROR:
             return {

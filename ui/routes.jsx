@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route} from 'react-router';
+import {Route, IndexRoute} from 'react-router';
 import App from './components/app';
 import Login from './components/login';
 import NotFound from './components/notFound';
@@ -11,6 +11,7 @@ export default (
         component={App}
         path="/"
     >
+        <IndexRoute component={Login} />
         <Route
             component={Login}
             path="login"
