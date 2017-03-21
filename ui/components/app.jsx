@@ -6,7 +6,7 @@ const App = ({children}) =>
     </div>;
 
 App.propTypes = {
-    children: React.PropTypes.func,
+    children: React.PropTypes.element,
 };
 
 export default App;

@@ -41,7 +41,7 @@ const form = reduxForm({
 class Register extends Component {
     static get propTypes() {
         return {
-            errorMessage: PropTypes.String,
+            errorMessage: PropTypes.string,
             handleSubmit: PropTypes.func,
             registerUser: PropTypes.func,
         };
@@ -49,7 +49,7 @@ class Register extends Component {
 
     constructor() {
         super();
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
     handleFormSubmit(formProps) {

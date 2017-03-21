@@ -9,7 +9,7 @@
     "test:watch": "npm run test -- --watch"
   },
   "keywords": [],
-  "author": "",
+  "author": "Danny Lau",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.15.3",

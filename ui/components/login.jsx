@@ -10,7 +10,7 @@ const form = reduxForm({
 class Login extends Component {
     static get propTypes() {
         return {
-            errorMessage: PropTypes.String,
+            errorMessage: PropTypes.string,
             handleSubmit: PropTypes.func,
             loginUser: PropTypes.func,
         };
