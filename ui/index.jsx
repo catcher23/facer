@@ -7,7 +7,7 @@ import {Router, browserHistory} from 'react-router';
 import cookie from 'react-cookie';
 import rootReducer from './reducers';
 import routes from './routes';
-import {AUTH_USER} from './actions/types';
+import {AUTH_USER} from './actions';
 
 const store = applyMiddleware(
     reduxThunk

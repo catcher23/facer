@@ -1,11 +1,6 @@
 import React from 'react';
 import {Route, IndexRoute} from 'react-router';
-import App from './components/app';
-import Auth from './components/auth';
-import Login from './components/login';
-import NotFound from './components/notFound';
-import Profile from './components/profile';
-import Register from './components/register';
+import {App, Auth, Login, NotFound, Profile, Register} from './components';
 
 export default (
     <Route

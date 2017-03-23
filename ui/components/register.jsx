@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
-import {registerUser} from '../actions';
+import {registerUser} from '../actions/auth';
 
 const renderField = field =>
     <div>

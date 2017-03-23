@@ -2,7 +2,7 @@ import {
     AUTH_USER,
     UNAUTH_USER,
     AUTH_ERROR
-} from '../actions/types';
+} from '../actions';
 
 const INITIAL_STATE = {
     authenticated: false,
