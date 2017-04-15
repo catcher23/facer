@@ -19,8 +19,8 @@ const routes = (app) => {
         res.render('index.html');
     });
 
-    api.post('/register', registration);
-    api.post('/login', requireLogin, login);
+    api.post('/auth/register', registration);
+    api.post('/auth/login', requireLogin, login);
     api.get('/users', getUsers);
     api.get('/users/:userid', getUser);
     api.post('/user', postUser);

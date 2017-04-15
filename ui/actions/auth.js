@@ -1,16 +1,8 @@
 import axios from 'axios';
 import cookie from 'react-cookie';
-import {
-    AUTH_USER,
-    AUTH_ERROR,
-    UNAUTH_USER,
-} from './types';
-import {
-    API_URL,
-    CLIENT_ROOT_URL,
-    errorHandler
-} from './index';
-
+import {AUTH_USER, AUTH_ERROR, UNAUTH_USER} from './types';
+import {API_URL, CLIENT_ROOT_URL} from './constants';
+import errorHandler from './error';
 
 export const logoutUser = (dispatch) => {
     dispatch({type: UNAUTH_USER});
@@ -32,6 +24,7 @@ export const loginUser = ({email, password}) =>
 };
 
 export const registerUser = ({email, name, password}) => (dispatch) => {
+    console.log(API_URL);
     axios.post(`${API_URL}/auth/register`, {email, name, password})
     .then((response) => {
         cookie.save('token', response.data.token, {path: '/'});

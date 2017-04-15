@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {browserHistory, setRedirectUrl} from 'react-router';
 import {connect} from 'react-redux';
 
@@ -7,9 +8,9 @@ const isLoggedIn = true;
 class AuthorizedContainer extends Component {
     static get propTypes() {
         return {
-            children: React.PropTypes.func.isRequired,
+            children: PropTypes.func.isRequired,
             currentURL: PropTypes.string,
-            dispatch: React.PropTypes.func
+            dispatch: PropTypes.func
         };
     }
 
