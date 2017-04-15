@@ -5,3 +5,4 @@ facer.iml
 .idea/
 .env
 bundle.js
+*.log
